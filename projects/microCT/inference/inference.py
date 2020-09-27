@@ -18,7 +18,6 @@ def read_h5(filename, dataset=''):
 
 
 model= unet_residual_3d(in_channel=1, out_channel=13).to(device)
-
 model = nn.DataParallel(model, device_ids=range(4))
 model = model.to(device)
 
@@ -45,18 +44,12 @@ if 'state_dict' in checkpoint.keys():
 model.eval()
 
 volume_name = 'MvsFCSmale4week-3-DownSamp_im.h5'
-
 image_volume = read_h5(volume_name)   #reading CT volume 
-
-print(image_volume.shape)
 vol = image_volume
 
 volume = torch.from_numpy(vol).to(device, dtype=torch.float)
 volume = volume.unsqueeze(0)
-
 volume = volume.unsqueeze(0)
-
-print(volume.shape)
 
 pred = model(volume)
 pred = pred.squeeze(0)
