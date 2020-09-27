@@ -11,7 +11,7 @@ MODEL:
   OUT_PLANES: 13
   LOSS_OPTION: [['CrossEntropy']]
   LOSS_WEIGHT: [[1.0]]
-  TARGET_OPT: ['5']
+  TARGET_OPT: ['3']
   WEIGHT_OPT: [['1', '0']]
 DATASET:
   IMAGE_NAME: ''
