@@ -8,3 +8,4 @@ python -u projects/microCT/fly_train.py --config-file projects/microCT/ct_fly.ya
 
 ## Inference  
 
+python inference/inference.py
