@@ -1,0 +1,49 @@
+# All other configurations are set by default. If you want to add new config options,
+# please modify ../connectomics/config/config.py
+SYSTEM:
+  NUM_GPUS: 4
+  NUM_CPUS: 4
+MODEL:
+  ARCHITECTURE: 'unet_residual_3d'
+  INPUT_SIZE: [112, 112, 112]
+  OUTPUT_SIZE: [112, 112, 112]
+  IN_PLANES: 1
+  OUT_PLANES: 13
+  LOSS_OPTION: [['CrossEntropy']]
+  LOSS_WEIGHT: [[1.0]]
+  TARGET_OPT: ['5']
+  WEIGHT_OPT: [['1', '0']]
+DATASET:
+  IMAGE_NAME: ''
+  LABEL_NAME: ''
+  INPUT_PATH: '/n/pfister_lab2/Lab/vcg_connectomics/CT/DJ_fly/train_h5/'
+  OUTPUT_PATH: 'outputs/Fly_13channels_op_minus1_downsample_gtlist_train_target_test'
+  PAD_SIZE: [0, 0, 0]
+AUGMENTOR:
+  ROTATE: 
+    ENABLED: False
+  RESCALE:
+    ENABLED: False
+  FLIP:
+    ENABLED: False
+    DO_ZTRANS: 0
+  ELASTIC:
+    ENABLED: False
+  GRAYSCALE:
+    ENABLED: False
+  MISSINGPARTS:
+    ENABLED: False
+  MISSINGSECTION:
+    ENABLED: False
+  MISALIGNMENT:
+    ENABLED: False
+  MOTIONBLUR:
+    ENABLED: False
+SOLVER:
+  LR_SCHEDULER_NAME: "WarmupMultiStepLR"
+  BASE_LR: 0.01
+  ITERATION_STEP: 1
+  ITERATION_SAVE: 5000
+  ITERATION_TOTAL: 500000
+  SAMPLES_PER_BATCH: 1
+  STEPS: (40000, 45000)
