@@ -15,7 +15,7 @@ from torch.utils.data import Dataset, DataLoader
 import torch.optim as optim
 import torchvision.transforms as transforms
 
-from .solver import *
+from connectomics.engine.solver import *
 from connectomics.model import *
 
 
