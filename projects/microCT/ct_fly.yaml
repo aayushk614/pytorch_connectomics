@@ -14,8 +14,8 @@ MODEL:
   TARGET_OPT: ['3']
   WEIGHT_OPT: [['1', '0']]
 DATASET:
-  INPUT_PATH: 'CT_data/dsample'
-  OUTPUT_PATH: 'outputs/Fly_13channels_op_minus1_downsample_gtlist_train_target_test'
+  INPUT_PATH: 'CT_data/DJ_Fly'
+  OUTPUT_PATH: 'outputs/CT_Fly'
   PAD_SIZE: [0, 0, 0]
 AUGMENTOR:
   ROTATE: 
@@ -48,4 +48,4 @@ SOLVER:
 INFERENCE:
   IMAGE_NAME: 'projects/microCT/MvsFCSmale4week-3-DownSamp_im.h5'
   OUTPUT_PATH: 'projects/microCT/'
-  OUTPUT_NAME: 'MvsFCSmale4week-3-DownSamp_prediction_yaml_test_final.h5'
+  OUTPUT_NAME: 'MvsFCSmale4week-3-DownSamp_pred.h5'
