@@ -25,13 +25,13 @@ import h5py
 import torch
 import torch.nn as nn
 import numpy as np
-from threedunet import unet_residual_3d
+#from threedunet import unet_residual_3d
 from torchsummary import summary
 
 
 
-testvolume_name = 'MvsFCSmale4week-3-DownSamp_im.h5'
-pred_name = 'MvsFCSmale4week-3-DownSamp_pred_im.h5'
+#testvolume_name = 'MvsFCSmale4week-3-DownSamp_im.h5'
+#pred_name = 'MvsFCSmale4week-3-DownSamp_predictiontest.h5'
 
 
 def read_h5(filename, dataset=''):
@@ -56,29 +56,33 @@ class Trainer(object):
         self.device = device
         self.output_dir = cfg.DATASET.OUTPUT_PATH
         self.mode = mode
+        self.checkpoint = checkpoint
 
         self.model = build_model(self.cfg, self.device)
-        self.update_checkpoint(checkpoint)
+        #self.update_checkpoint(checkpoint)
 
 
     def test(self):
 
-        r"""Training function.
+        r"""Testing function.
         """
 
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+        volume_loc = self.cfg.INFERENCE.IMAGE_NAME
+        output_path = self.cfg.INFERENCE.OUTPUT_PATH
+        pred_name = self.cfg.INFERENCE.OUTPUT_NAME
 
-        #model= unet_residual_3d(in_channel=1, out_channel=13).to(device)
-        model = model
-        model = nn.DataParallel(model, device_ids=range(4))
+        pred_location = os.path.join(output_path,pred_name)
+
+        model = self.model
+        model = nn.DataParallel(model, device_ids=range(self.cfg.SYSTEM.NUM_GPUS))
         model = model.to(device)
 
-        #checkpoint = 'checkpoint_50000.pth.tar'
 
         # load pre-trained model
-        print('Load pretrained checkpoint: ', checkpoint)
-        checkpoint = torch.load(checkpoint)
+        print('Load pretrained checkpoint: ', self.checkpoint)
+        checkpoint = torch.load(self.checkpoint)
         print('checkpoints: ', checkpoint.keys())
 
         # update model weights
@@ -96,7 +100,8 @@ class Trainer(object):
             
         model.eval()
 
-        volume_name = testvolume_name
+        
+        volume_name = volume_loc
         image_volume = read_h5(volume_name)   #reading CT volume 
         vol = image_volume
 
@@ -113,7 +118,7 @@ class Trainer(object):
         print("Shape of Predictions after argmax() function ", pred_final.shape)
 
 
-        hf1 = h5py.File(pred_name, 'w')
+        hf1 = h5py.File(pred_location, 'w')
         hf1.create_dataset('dataset1', data=pred_final)
         print("Prediction volume created and saved" , hf1)
         hf1.close()

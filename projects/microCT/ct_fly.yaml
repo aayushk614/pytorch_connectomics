@@ -47,3 +47,7 @@ SOLVER:
   ITERATION_TOTAL: 500000
   SAMPLES_PER_BATCH: 1
   STEPS: (40000, 45000)
+INFERENCE:
+  IMAGE_NAME: 'projects/microCT/inference/MvsFCSmale4week-3-DownSamp_im.h5'
+  OUTPUT_PATH: 'projects/microCT/inference'
+  OUTPUT_NAME: 'MvsFCSmale4week-3-DownSamp_prediction_yaml_test.h5'

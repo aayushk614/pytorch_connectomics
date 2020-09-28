@@ -3,7 +3,7 @@ import argparse
 import torch
 
 from connectomics.config import get_cfg_defaults, save_all_cfg, update_inference_cfg
-from connectomics.engine import Trainer
+from projects.microCT.inference import Trainer
 
 def get_args():
     r"""Get args from command lines.
@@ -42,15 +42,11 @@ def main():
     print("Configuration details:")
     print(cfg)
 
-    if not os.path.exists(cfg.DATASET.OUTPUT_PATH):
-        print('Output directory: ', cfg.DATASET.OUTPUT_PATH)
-        os.makedirs(cfg.DATASET.OUTPUT_PATH)
-        save_all_cfg(cfg, cfg.DATASET.OUTPUT_PATH)
+
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("Device: ", device)
-    cudnn.enabled = True
-    cudnn.benchmark = True
+
 
     mode = 'test' if args.inference else 'train'
     trainer = Trainer(cfg, device, mode, args.checkpoint)

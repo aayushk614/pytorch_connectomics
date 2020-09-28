@@ -133,7 +133,7 @@ class Trainer(object):
     
             loss = self.criterion(pred, target)
 
-
+            print("From new location:")
             # compute gradient
             loss.backward()
             if (iteration+1) % self.cfg.SOLVER.ITERATION_STEP == 0:
