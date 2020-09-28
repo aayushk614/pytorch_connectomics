@@ -14,9 +14,7 @@ MODEL:
   TARGET_OPT: ['3']
   WEIGHT_OPT: [['1', '0']]
 DATASET:
-  IMAGE_NAME: ''
-  LABEL_NAME: ''
-  INPUT_PATH: '/n/pfister_lab2/Lab/vcg_connectomics/CT/DJ_fly/train_h5/'
+  INPUT_PATH: 'CT_data/dsample'
   OUTPUT_PATH: 'outputs/Fly_13channels_op_minus1_downsample_gtlist_train_target_test'
   PAD_SIZE: [0, 0, 0]
 AUGMENTOR:
@@ -44,10 +42,10 @@ SOLVER:
   BASE_LR: 0.01
   ITERATION_STEP: 1
   ITERATION_SAVE: 5000
-  ITERATION_TOTAL: 500000
-  SAMPLES_PER_BATCH: 1
+  ITERATION_TOTAL: 50000
+  SAMPLES_PER_BATCH: 4
   STEPS: (40000, 45000)
 INFERENCE:
-  IMAGE_NAME: 'projects/microCT/inference/MvsFCSmale4week-3-DownSamp_im.h5'
-  OUTPUT_PATH: 'projects/microCT/inference'
-  OUTPUT_NAME: 'MvsFCSmale4week-3-DownSamp_prediction_yaml_test.h5'
+  IMAGE_NAME: 'projects/microCT/MvsFCSmale4week-3-DownSamp_im.h5'
+  OUTPUT_PATH: 'projects/microCT/'
+  OUTPUT_NAME: 'MvsFCSmale4week-3-DownSamp_prediction_yaml_test_final.h5'

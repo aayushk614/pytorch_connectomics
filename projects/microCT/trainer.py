@@ -3,35 +3,28 @@ import time, itertools
 import GPUtil
 import time
 import h5py
-import datetime
 import imageio
-from os import listdir
+import datetime
 import scipy.io
 import numpy as np
 import pandas as pd
+from os import listdir
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils.data import Dataset, DataLoader
 import torch.optim as optim
+import torch.nn.functional as F
 import torchvision.transforms as transforms
+from torch.utils.data import Dataset, DataLoader
 
 from connectomics.engine.solver import *
 from connectomics.model import *
-
-from torchsummary import summary
-
-
-
 
 def read_h5(filename, dataset=''):
     fid = h5py.File(filename, 'r')
     if dataset == '':
         dataset = list(fid)[0]
     return np.array(fid[dataset])
-
-
 
 def seg_to_targets(label, topts):
     out = [None]*len(topts)
@@ -41,17 +34,15 @@ def seg_to_targets(label, topts):
 
     return out
 
-base_dir = "CT_data/dsample"       # resampled volumes location (112,112,112)
 
 class Cthousefly(Dataset):  
-    def __init__(self, root_dir, transform=None): 
+    def __init__(self, root_dir, csv_loc, iter_num, transform=None): 
         self.root_dir = root_dir
-        xl = pd.read_csv('/n/home03/aayushk614/aayush/exp2_new_mito/pytorch_connectomics/CT_data/train.csv')
+        xl = pd.read_csv(csv_loc)
         self.trainfile = xl['Volumes']
         self.groundtruths = xl['GT']
         self.transform = transform
-        self.iter_num = 100000
-
+        self.iter_num = iter_num
 
     def __len__(self):
         return self.iter_num
@@ -71,7 +62,6 @@ class Cthousefly(Dataset):
         volume = np.array(fid_v[dataset_v])
 
         ground_truth = np.array(fid_gt[dataset_gt])
-
         ground_truth = seg_to_targets(ground_truth, ['-1']) 
 
         if self.transform:
@@ -79,9 +69,10 @@ class Cthousefly(Dataset):
 
         return volume, ground_truth
 
-trainset = Cthousefly(root_dir="/n/home03/aayushk614/aayush/exp2_new_mito/pytorch_connectomics/CT_data/dsample")
+#trainset = Cthousefly(root_dir="/n/home03/aayushk614/aayush/exp2_new_mito/pytorch_connectomics/CT_data/dsample")
 
-dataloader_simple = torch.utils.data.DataLoader(trainset, batch_size=1,shuffle=False, num_workers=4)
+#dataloader_simple = torch.utils.data.DataLoader(trainset, batch_size=1,shuffle=False, num_workers=4)
+
 
 class Trainer(object):
     r"""Trainer
@@ -105,8 +96,14 @@ class Trainer(object):
         if checkpoint is not None:
             self.update_checkpoint(checkpoint)
 
-        self.dataloader = iter(dataloader_simple)
 
+        iter_num = self.cfg.SOLVER.ITERATION_TOTAL * self.cfg.SOLVER.SAMPLES_PER_BATCH
+
+        trainset = Cthousefly(root_dir= self.cfg.DATASET.INPUT_PATH, csv_loc = 'CT_data/train.csv', iter_num = iter_num)
+
+        dataloader_simple = torch.utils.data.DataLoader(trainset, batch_size = self.cfg.SOLVER.SAMPLES_PER_BATCH, shuffle = False, num_workers = 4)
+
+        self.dataloader = iter(dataloader_simple)
         self.monitor = build_monitor(self.cfg)
         self.criterion = nn.CrossEntropyLoss()
         self.checkpoint = checkpoint
@@ -148,7 +145,6 @@ class Trainer(object):
     
             loss = self.criterion(pred, target)
 
-            print("From new location:")
             # compute gradient
             loss.backward()
             if (iteration+1) % self.cfg.SOLVER.ITERATION_STEP == 0:
@@ -198,29 +194,9 @@ class Trainer(object):
         model = self.model
         model = nn.DataParallel(model, device_ids=range(self.cfg.SYSTEM.NUM_GPUS))
         model = model.to(device)
-
-
-        # load pre-trained model
-        print('Load pretrained checkpoint: ', self.checkpoint)
-        checkpoint = torch.load(self.checkpoint)
-        print('checkpoints: ', checkpoint.keys())
-
-        # update model weights
-        if 'state_dict' in checkpoint.keys():
-            pretrained_dict = checkpoint['state_dict']
-            model_dict = model.module.state_dict() # nn.DataParallel
-            # 1. filter out unnecessary keys
-            pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
-            # 2. overwrite entries in the existing state dict 
-            model_dict.update(pretrained_dict)    
-            # 3. load the new state dict
-            model.module.load_state_dict(model_dict) # nn.DataParallel
-            
-            print("new state dict loaded ")
-            
+           
         model.eval()
-
-        
+      
         volume_name = volume_loc
         image_volume = read_h5(volume_name)   #reading CT volume 
         vol = image_volume
