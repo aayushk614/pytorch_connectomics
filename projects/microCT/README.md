@@ -8,4 +8,5 @@ python -u projects/microCT/fly_train.py --config-file projects/microCT/ct_fly.ya
 
 ## Inference  
 
-python -u projects/microCT/inference/fly_test.py --config-file projects/microCT/ct_fly.yaml --inference --checkpoint path/to/checkpoint
+python -u projects/microCT/fly_train.py --config-file projects/microCT/ct_fly.yaml --inference --checkpoint path/to/checkpoint
+
