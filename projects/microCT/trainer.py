@@ -69,9 +69,6 @@ class Cthousefly(Dataset):
 
         return volume, ground_truth
 
-#trainset = Cthousefly(root_dir="/n/home03/aayushk614/aayush/exp2_new_mito/pytorch_connectomics/CT_data/dsample")
-
-#dataloader_simple = torch.utils.data.DataLoader(trainset, batch_size=1,shuffle=False, num_workers=4)
 
 
 class Trainer(object):
