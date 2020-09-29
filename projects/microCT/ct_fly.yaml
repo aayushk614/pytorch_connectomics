@@ -15,7 +15,7 @@ MODEL:
   WEIGHT_OPT: [['1', '0']]
 DATASET:
   INPUT_PATH: 'CT_data/dsample'
-  OUTPUT_PATH: 'outputs/Fly_13channels_op_minus1_downsample_gtlist_train_target_test'
+  OUTPUT_PATH: 'outputs/CT_fly'
   CSV_PATH: 'CT_data/train.csv'
 AUGMENTOR:
   ROTATE: 
