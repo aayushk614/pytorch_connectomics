@@ -48,4 +48,4 @@ SOLVER:
 INFERENCE:
   IMAGE_NAME: 'projects/microCT/MvsFCSmale4week-3-DownSamp_im.h5'
   OUTPUT_PATH: 'projects/microCT/'
-  OUTPUT_NAME: 'MvsFCSmale4week-3-DownSamp_prediction_yaml_test_final.h5'
+  OUTPUT_NAME: 'MvsFCSmale4week-3-DownSamp_pred.h5'

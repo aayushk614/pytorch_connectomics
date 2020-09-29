@@ -36,9 +36,9 @@ def seg_to_targets(label, topts):
 
 
 class Cthousefly(Dataset):  
-    def __init__(self, root_dir, csv_loc, iter_num, transform=None): 
+    def __init__(self, root_dir, iter_num, transform=None): 
         self.root_dir = root_dir
-        xl = pd.read_csv(csv_loc)
+        xl = pd.read_csv('CT_data/train.csv')
         self.trainfile = xl['Volumes']
         self.groundtruths = xl['GT']
         self.transform = transform
