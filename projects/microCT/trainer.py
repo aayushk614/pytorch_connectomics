@@ -99,7 +99,7 @@ class Trainer(object):
 
         iter_num = self.cfg.SOLVER.ITERATION_TOTAL * self.cfg.SOLVER.SAMPLES_PER_BATCH
 
-        trainset = Cthousefly(root_dir= self.cfg.DATASET.INPUT_PATH, csv_loc = 'CT_data/train.csv', iter_num = iter_num)
+        trainset = Cthousefly(root_dir= self.cfg.DATASET.INPUT_PATH, csv_loc = self.cfg.DATASET.CSV_PATH, iter_num = iter_num)
 
         dataloader_simple = torch.utils.data.DataLoader(trainset, batch_size = self.cfg.SOLVER.SAMPLES_PER_BATCH, shuffle = False, num_workers = 4)
 

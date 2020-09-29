@@ -16,7 +16,7 @@ MODEL:
 DATASET:
   INPUT_PATH: 'CT_data/dsample'
   OUTPUT_PATH: 'outputs/Fly_13channels_op_minus1_downsample_gtlist_train_target_test'
-  PAD_SIZE: [0, 0, 0]
+  CSV_PATH: 'CT_data/train.csv'
 AUGMENTOR:
   ROTATE: 
     ENABLED: False

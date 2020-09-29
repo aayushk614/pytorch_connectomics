@@ -105,6 +105,8 @@ _C.DATASET.INPUT_PATH = ''
 
 _C.DATASET.OUTPUT_PATH = ''
 
+_C.DATASET.CSV_PATH = ''
+
 # 2d or 3d dataset
 _C.DATASET.DO_2D = False
 
