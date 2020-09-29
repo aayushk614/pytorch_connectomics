@@ -36,9 +36,9 @@ def seg_to_targets(label, topts):
 
 
 class Cthousefly(Dataset):  
-    def __init__(self, root_dir, iter_num, transform=None): 
+    def __init__(self, root_dir, csv_loc ,iter_num, transform=None): 
         self.root_dir = root_dir
-        xl = pd.read_csv('CT_data/train.csv')
+        xl = pd.read_csv(csv_loc)
         self.trainfile = xl['Volumes']
         self.groundtruths = xl['GT']
         self.transform = transform
@@ -97,9 +97,9 @@ class Trainer(object):
             self.update_checkpoint(checkpoint)
 
 
-        iter_num = self.cfg.SOLVER.ITERATION_TOTAL * self.cfg.SOLVER.SAMPLES_PER_BATCH
+        iteration_num = self.cfg.SOLVER.ITERATION_TOTAL * self.cfg.SOLVER.SAMPLES_PER_BATCH
 
-        trainset = Cthousefly(root_dir= self.cfg.DATASET.INPUT_PATH, csv_loc = self.cfg.DATASET.CSV_PATH, iter_num = iter_num)
+        trainset = Cthousefly(root_dir= self.cfg.DATASET.INPUT_PATH, csv_loc = self.cfg.DATASET.CSV_PATH, iter_num = iteration_num)
 
         dataloader_simple = torch.utils.data.DataLoader(trainset, batch_size = self.cfg.SOLVER.SAMPLES_PER_BATCH, shuffle = False, num_workers = 4)
 
