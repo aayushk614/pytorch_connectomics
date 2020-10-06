@@ -1,4 +1,4 @@
-Mitochondria Segmentation
+CT Fly Segmentation
 ===========================
 
 .. contents::
@@ -7,13 +7,21 @@ Mitochondria Segmentation
 Introduction
 -------------
 
-Mitochondria are the primary energy providers for cell activities, thus essential for metabolism. 
-Quantification of the size and geometry of mitochondria is not only crucial to basic neuroscience research, but also informative to 
-clinical studies including, but not limited to, bipolar disorder and diabetes.
+Indirect flight muscles (IFMs) in adult Drosophila provide the key power stroke for wing beating. They also serve as a valuable model for studying muscle
+development. Such analyses are impeded by conventional histological
+preparations and imaging techniques that limit exact morphometry of flight
+muscles. In this tutorial, microCT scanning is employed on a tissue preparation
+that retains muscle morphology under homeostatic conditions. Focusing on
+a subset of IFMs called the dorsal longitudinal muscles (DLMs), it is found that
+DLM volumes increase with age, partially due to the increased separation
+between myofibrillar fascicles, in a sex-dependentmanner.The authors have uncovered
+and quantified asymmetry in the size of these muscles on either side of the
+longitudinal midline.Measurements of this resolution and scalemake substantive
+studies that test the connection between form and function possible.
 
-This tutorial has two parts. In the first part, you will learn how to make **pixel-wise class prediction** on the widely used benchmark
-dataset released by Lucchi et al. in 2012. In the second part, you will learn how to predict the **instance masks** of 
-individual mitochondrion from the large-scale MitoEM dataset released by Wei et al. in 2020.
+
+In this tutorial, you will learn how to predict the **volumetric instance masks** on the CT Fly
+dataset released by Chaturvedi, et al. in 2019.
 
 Semantic Segmentation
 ----------------------
