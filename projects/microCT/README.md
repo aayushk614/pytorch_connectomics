@@ -4,9 +4,9 @@
 
 ## Training
 
-python -u projects/microCT/main.py --config-file projects/microCT/ct_fly.yaml
+python -u projects/microCT/main.py --config-file projects/microCT/configs/CT-Fly-No-Augmentation.yaml
 
 ## Inference  
 
-python -u projects/microCT/main.py --config-file projects/microCT/ct_fly.yaml --inference --checkpoint path/to/checkpoint
+python -u projects/microCT/main.py --config-file projects/microCT/configs/CT-Fly-No-Augmentation.yaml --inference --checkpoint path/to/checkpoint
 
