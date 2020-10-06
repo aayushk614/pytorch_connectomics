@@ -93,11 +93,8 @@ class Trainer(object):
         if checkpoint is not None:
             self.update_checkpoint(checkpoint)
 
-
         iteration_num = self.cfg.SOLVER.ITERATION_TOTAL * self.cfg.SOLVER.SAMPLES_PER_BATCH
-
         trainset = Cthousefly(root_dir= self.cfg.DATASET.INPUT_PATH, csv_loc = self.cfg.DATASET.CSV_PATH, iter_num = iteration_num)
-
         dataloader_simple = torch.utils.data.DataLoader(trainset, batch_size = self.cfg.SOLVER.SAMPLES_PER_BATCH, shuffle = False, num_workers = self.cfg.SYSTEM.NUM_CPUS)
                    
         self.dataloader = iter(dataloader_simple)
