@@ -17,23 +17,10 @@ import torch.nn.functional as F
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset, DataLoader
 
+from connectomics.data.utils.data_segmentation import seg_to_targets
+from connectomics.data.utils.data_io import readh5
 from connectomics.engine.solver import *
 from connectomics.model import *
-
-def read_h5(filename, dataset=''):
-    fid = h5py.File(filename, 'r')
-    if dataset == '':
-        dataset = list(fid)[0]
-    return np.array(fid[dataset])
-
-def seg_to_targets(label, topts):
-    out = [None]*len(topts)
-    for tid,topt in enumerate(topts):
-        if topt == '-1':
-            out[tid] = label[None,:].astype(np.float32)
-
-    return out
-
 
 class Cthousefly(Dataset):  
     def __init__(self, root_dir, csv_loc ,iter_num, transform=None): 
@@ -69,8 +56,6 @@ class Cthousefly(Dataset):
 
         return volume, ground_truth
 
-
-
 class Trainer(object):
     r"""Trainer
 
@@ -93,10 +78,10 @@ class Trainer(object):
         if checkpoint is not None:
             self.update_checkpoint(checkpoint)
 
-        iteration_num = self.cfg.SOLVER.ITERATION_TOTAL * self.cfg.SOLVER.SAMPLES_PER_BATCH
-        trainset = Cthousefly(root_dir= self.cfg.DATASET.INPUT_PATH, csv_loc = self.cfg.DATASET.CSV_PATH, iter_num = iteration_num)
+        self.iteration_num = self.cfg.SOLVER.ITERATION_TOTAL * self.cfg.SOLVER.SAMPLES_PER_BATCH
+        trainset = Cthousefly(root_dir= self.cfg.DATASET.INPUT_PATH, csv_loc = self.cfg.DATASET.CSV_PATH, iter_num = self.iteration_num)
         dataloader_simple = torch.utils.data.DataLoader(trainset, batch_size = self.cfg.SOLVER.SAMPLES_PER_BATCH, shuffle = False, num_workers = self.cfg.SYSTEM.NUM_CPUS)
-                   
+                  
         self.dataloader = iter(dataloader_simple)
         self.monitor = build_monitor(self.cfg)
         self.criterion = nn.CrossEntropyLoss()
@@ -106,7 +91,6 @@ class Trainer(object):
         self.monitor.load_config(self.cfg)
         self.total_iter_nums = self.cfg.SOLVER.ITERATION_TOTAL - self.start_iter
         self.inference_output_name = self.cfg.INFERENCE.OUTPUT_NAME
-
 
     def train(self):
         r"""Training function.
@@ -124,13 +108,12 @@ class Trainer(object):
             volume, target = batch
             time1 = time.perf_counter()
 
-            target_vis = target
-                        
+            target_vis = target                        
             volume = volume.to(self.device, dtype=torch.float)
             volume = volume.unsqueeze(1)
 
             target = target[0].to(self.device, dtype=torch.long)
-            target = np.squeeze(target, axis=1)
+            target = target.squeeze(axis=1)                
 
             pred = self.model(volume)
 
@@ -150,7 +133,6 @@ class Trainer(object):
         
             if do_vis:
 
-
                 self.monitor.visualize(self.cfg, volume, target_vis, pred_vis, iter_total)
                 # Display GPU stats using the GPUtil package.
                 GPUtil.showUtilization(all=True)
@@ -169,8 +151,6 @@ class Trainer(object):
             # Release some GPU memory and ensure same GPU usage in the consecutive iterations according to 
             # https://discuss.pytorch.org/t/gpu-memory-consumption-increases-while-training/2770
             del loss, pred
-
-
 
     def test(self):
 
@@ -206,7 +186,6 @@ class Trainer(object):
 
         pred_final = np.argmax(pred.detach().numpy(),axis=0).astype(np.uint16)
         print("Shape of Predictions after argmax() function ", pred_final.shape)
-
 
         hf1 = h5py.File(pred_location, 'w')
         hf1.create_dataset('dataset1', data=pred_final)

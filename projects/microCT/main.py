@@ -3,7 +3,7 @@ import argparse
 import torch
 
 from connectomics.config import get_cfg_defaults, save_all_cfg, update_inference_cfg
-from projects.microCT import Trainer
+from .trainer import *
 
 def get_args():
     r"""Get args from command lines.
