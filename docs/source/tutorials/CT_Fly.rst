@@ -1,9 +1,6 @@
 CT Fly Segmentation
 ===========================
 
-.. contents::
-   :local:
-
 Introduction
 -------------
 
@@ -19,24 +16,21 @@ and quantified asymmetry in the size of these muscles on either side of the
 longitudinal midline.Measurements of this resolution and scalemake substantive
 studies that test the connection between form and function possible.
 
-
-In this tutorial, you will learn how to predict the **volumetric instance masks** on the CT Fly
+In this tutorial, you will learn how to predict the **Drosophila longitudinal muscles instance masks** on the CT Fly
 dataset released by Chaturvedi, et al. in 2019.
 
-Semantic Segmentation
+Volumetric Instance Segmentation
 ----------------------
 
-This section provides step-by-step guidance for mitochondria segmentation with the EM benchmark datasets released by `Lucchi et al. <https://cvlab.epfl.ch/research/page-90578-en-html/research-medical-em-mitochondria-index-php/>`_.
-We consider the task as a **semantic segmentation** task and predict the mitochondria pixels with encoder-decoder ConvNets similar to
-the models used in affinity prediction in `neuron segmentation <https://zudi-lin.github.io/pytorch_connectomics/build/html/tutorials/snemi.html>`_. The evaluation of the mitochondria segmentation results is based on the F1 score and Intersection over Union (IoU).
-
+This section provides step-by-step guidance for CT Fly segmentation with the datasets released by Chaturvedi et al. 
+We consider consider the task as 3D **instance segmentation** and predict the Drosophila longitudinal muscles instances with encoder-decoder ConvNets ``unet_res_3d``, similar to the one used in `neuron segmentation <https://zudi-lin.github.io/pytorch_connectomics/build/html/tutorials/snemi.html>`_.
+The evaluation of the segmentation results is based on the F1-score.
 .. note::
-    Different from other EM connectomics datasets used in the tutorials, the dataset released by Lucchi et al. is an isotropic dataset,
-    which means the spatial resolution along all three axes is the same. Therefore a completely 3D U-Net and data augmentation along z-x
-    and z-y planes besides x-y planes are preferred.
+    The dataset released by Chaturvedi et al. is completely different from other EM connectomics datasets used in the tutorials, 
+    where we downsample the volumes to (112,112,112) to capture the whole feild of view instead of patches of volumes.
+    Therefore a completely different Dataloader and preprocessing steps are preferred.
 
-All the scripts needed for this tutorial can be found at ``pytorch_connectomics/scripts/``. Need to pass the argument ``--config-file configs/Lucchi-Mitochondria.yaml`` during training and inference to load the required configurations for this task. 
-The pytorch dataset class of lucchi data is :class:`connectomics.data.dataset.VolumeDataset`.
+All the scripts needed for this tutorial can be found at ``pytorch_connectomics/projects/microCT``. Need to pass the argument ``--config-file configs/projects/microCT/configs/CT-Fly-No-Augmentation.yaml`` during training and inference to load the required configurations for this task. 
 
 .. figure:: ../_static/img/lucchi_qual.png
     :align: center
