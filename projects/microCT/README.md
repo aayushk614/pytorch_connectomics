@@ -33,28 +33,25 @@ The evaluation of the segmentation results is based on the F1-score.
 All the scripts needed for this tutorial can be found at ``pytorch_connectomics/projects/microCT``. Need to pass the argument ``--config-file configs/projects/microCT/configs/CT-Fly-No-Augmentation.yaml`` during training and inference to load the required configurations for this task. 
 
 
-#. Get the dataset:
+## Get the dataset:
 
     Download the dataset from our server:
-
         
             http://rhoana.rc.fas.harvard.edu/dataset/
     
 
-#. Run the training script:
-
+## Run the training script:
 
         $ source activate py3_torch
         $ CUDA_VISIBLE_DEVICES=0,1,2,3 python -u projects/microCT/main.py \
           --config-file projects/microCT/configs/CT-Fly-No-Augmentation.yaml
 
-#. Visualize the training progress:
-
+## Run the training script:
+ Visualize the training progress:
 
         $ tensorboard --logdir runs
 
-#. Run inference on test image volume:
-
+## Run inference on test image volume:
 
         $ source activate py3_torch
         $ CUDA_VISIBLE_DEVICES=0,1,2,3 python -u projects/microCT/main.py \
