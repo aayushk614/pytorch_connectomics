@@ -1,10 +1,5 @@
 # Region Segmentation from microCT Scanning
 
-## Introduction
-
-CT Fly Segmentation
-===========================
-
 Introduction
 -------------
 
@@ -26,8 +21,8 @@ dataset released by Chaturvedi, et al. in 2019.
 Volumetric Instance Segmentation
 ----------------------
 
-This section provides step-by-step guidance for CT Fly segmentation with the datasets released by Chaturvedi et al. 
-We consider consider the task as 3D **instance segmentation** and predict the Drosophila longitudinal muscles instances with encoder-decoder ConvNets ``unet_res_3d``, similar to the one used in `neuron segmentation <https://zudi-lin.github.io/pytorch_connectomics/build/html/tutorials/snemi.html>`_.
+This section provides step-by-step guidance for CT Fly segmentation with the dataset released by Chaturvedi et al. 
+We consider the task as 3D **instance segmentation** and predict the Drosophila longitudinal muscles instances with encoder-decoder ConvNets ``unet_res_3d``, similar to the one used in `neuron segmentation <https://zudi-lin.github.io/pytorch_connectomics/build/html/tutorials/snemi.html>`_.
 The evaluation of the segmentation results is based on the F1-score.
 .. note::
     The dataset released by Chaturvedi et al. is completely different from other EM connectomics datasets used in the tutorials, 
