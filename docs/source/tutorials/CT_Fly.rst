@@ -32,12 +32,6 @@ The evaluation of the segmentation results is based on the F1-score.
 
 All the scripts needed for this tutorial can be found at ``pytorch_connectomics/projects/microCT``. Need to pass the argument ``--config-file configs/projects/microCT/configs/CT-Fly-No-Augmentation.yaml`` during training and inference to load the required configurations for this task. 
 
-.. figure:: ../_static/img/lucchi_qual.png
-    :align: center
-    :width: 800px
-
-    Qualitative results of the model prediction on the mitochondria segmentation dataset released by 
-    Lucchi et al., without any post-processing.
 
 #. Get the dataset:
 
@@ -45,17 +39,16 @@ All the scripts needed for this tutorial can be found at ``pytorch_connectomics/
 
         .. code-block:: none
 
-            wget https://hp03.mindhackers.org/rhoana_product/dataset/lucchi.zip
+            http://rhoana.rc.fas.harvard.edu/dataset/
     
-    For description of the data please check `the author page <https://www.epfl.ch/labs/cvlab/data/data-em/>`_.
 
 #. Run the training script:
 
     .. code-block:: none
 
         $ source activate py3_torch
-        $ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -u scripts/main.py \
-          --config-file configs/Lucchi-Mitochondria.yaml
+        $ CUDA_VISIBLE_DEVICES=0,1,2,3 python -u projects/microCT/main.py \
+          --config-file projects/microCT/configs/CT-Fly-No-Augmentation.yaml
 
 #. Visualize the training progress:
 
@@ -68,12 +61,11 @@ All the scripts needed for this tutorial can be found at ``pytorch_connectomics/
     .. code-block:: none
 
         $ source activate py3_torch
-        $ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -u scripts/main.py \
-          --config-file configs/Lucchi-Mitochondria.yaml --inference \
-          --checkpoint outputs/Lucchi_mito_baseline/volume_100000.pth.tar
+        $ CUDA_VISIBLE_DEVICES=0,1,2,3 python -u projects/microCT/main.py \
+          --config-file projects/microCT/configs/CT-Fly-No-Augmentation.yaml --inference \
+          --checkpoint outputs/CT_Fly/volume_100000.pth.tar
 
-Our pretained model achieves a VOC score of **0.943** on the test set. Please check `BENCHMARK.md <https://github.com/zudi-lin/pytorch_connectomics/blob/master/BENCHMARK.md>`_ 
-for detailed performance comparison and the pre-trained models.
+Our pretained model achieves a F1 score of **0.89** on the test set.
 
 Instance Segmentation
 ----------------------
