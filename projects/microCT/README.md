@@ -26,9 +26,11 @@ We consider the task as 3D **instance segmentation** and predict the Drosophila 
 
 The evaluation of the segmentation results is based on the F1-score.
 
+
     The dataset released by Chaturvedi et al. is completely different from other EM connectomics datasets used in the tutorials, 
     where we downsample the volumes to (112,112,112) to capture the whole feild of view instead of patches of volumes.
     Therefore a completely different Dataloader and preprocessing steps are preferred.
+
 
 All the scripts needed for this tutorial can be found at ``pytorch_connectomics/projects/microCT``. Need to pass the argument ``--config-file configs/projects/microCT/configs/CT-Fly-No-Augmentation.yaml`` during training and inference to load the required configurations for this task. 
 
@@ -46,9 +48,8 @@ All the scripts needed for this tutorial can be found at ``pytorch_connectomics/
         $ CUDA_VISIBLE_DEVICES=0,1,2,3 python -u projects/microCT/main.py \
           --config-file projects/microCT/configs/CT-Fly-No-Augmentation.yaml
 
-## Run the training script:
- Visualize the training progress:
-
+## Visualize the training progress:
+ 
         $ tensorboard --logdir runs
 
 ## Run inference on test image volume:
