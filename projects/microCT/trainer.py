@@ -22,8 +22,20 @@ from connectomics.data.utils.data_io import readh5
 from connectomics.engine.solver import *
 from connectomics.model import *
 
-class Cthousefly(Dataset):  
-    def __init__(self, root_dir, csv_loc ,iter_num, transform=None): 
+class Cthousefly(Dataset):
+
+    """
+    Dataset class for CT Fly volumes.
+    
+    Args:
+        root_dir (string): location of the volumes and the corresponding ground truths
+        csv_loc(string): location of the csv file containing list of training volumes and GTs
+        iter_num (int): total number of training iterations
+
+    """
+
+
+    def __init__(self, root_dir, csv_loc ,iter_num): 
         self.root_dir = root_dir
         xl = pd.read_csv(csv_loc)
         self.trainfile = xl['Volumes']
@@ -51,8 +63,6 @@ class Cthousefly(Dataset):
         ground_truth = np.array(fid_gt[dataset_gt])
         ground_truth = seg_to_targets(ground_truth, ['-1']) 
 
-        if self.transform:
-            volume = self.transform(volume)
 
         return volume, ground_truth
 
