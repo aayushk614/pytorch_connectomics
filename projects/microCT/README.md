@@ -22,9 +22,10 @@ Volumetric Instance Segmentation
 ----------------------
 
 This section provides step-by-step guidance for CT Fly segmentation with the dataset released by Chaturvedi et al. 
-We consider the task as 3D **instance segmentation** and predict the Drosophila longitudinal muscles instances with encoder-decoder ConvNets ``unet_res_3d``, similar to the one used in `neuron segmentation <https://zudi-lin.github.io/pytorch_connectomics/build/html/tutorials/snemi.html>`_.
+We consider the task as 3D **instance segmentation** and predict the Drosophila longitudinal muscles instances with encoder-decoder ConvNets ``unet_res_3d``, similar to the one used in [neuron segmentation] (https://zudi-lin.github.io/pytorch_connectomics/build/html/tutorials/snemi.html).
+
 The evaluation of the segmentation results is based on the F1-score.
-.. note::
+
     The dataset released by Chaturvedi et al. is completely different from other EM connectomics datasets used in the tutorials, 
     where we downsample the volumes to (112,112,112) to capture the whole feild of view instead of patches of volumes.
     Therefore a completely different Dataloader and preprocessing steps are preferred.
@@ -36,14 +37,12 @@ All the scripts needed for this tutorial can be found at ``pytorch_connectomics/
 
     Download the dataset from our server:
 
-        .. code-block:: none
-
+        
             http://rhoana.rc.fas.harvard.edu/dataset/
     
 
 #. Run the training script:
 
-    .. code-block:: none
 
         $ source activate py3_torch
         $ CUDA_VISIBLE_DEVICES=0,1,2,3 python -u projects/microCT/main.py \
@@ -51,13 +50,11 @@ All the scripts needed for this tutorial can be found at ``pytorch_connectomics/
 
 #. Visualize the training progress:
 
-    .. code-block:: none
 
         $ tensorboard --logdir runs
 
 #. Run inference on test image volume:
 
-    .. code-block:: none
 
         $ source activate py3_torch
         $ CUDA_VISIBLE_DEVICES=0,1,2,3 python -u projects/microCT/main.py \
