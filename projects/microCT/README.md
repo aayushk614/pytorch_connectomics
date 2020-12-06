@@ -1,4 +1,4 @@
-# Region Segmentation from microCT Scanning
+# Volumetric Segmentation of Drosophila Longitudinal muscles
 
 Introduction
 -------------
